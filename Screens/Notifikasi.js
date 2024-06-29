@@ -38,7 +38,7 @@ const Notifikasi = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Ionicons name="notifications-circle-sharp" size={34} color="yellow" style={styles.icon} />
+      <Ionicons name="notifications-circle-sharp" size={34} color="#F1ED00" style={styles.icon} />
       <Text style={styles.itemText}>
         Terakhir pembayaran untuk kupon {item.jenis_kupon} tanggal {item.tanggal_pembayaran}
       </Text>
