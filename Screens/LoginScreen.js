@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
-  const handleLogin = () => {
-    // Logika autentikasi bisa ditambahkan di sini
+  const [password, setPassword] = useState('');
 
-    // Misalnya, jika autentikasi sukses, pindah ke halaman home
-    navigation.replace('HomeScreen');
+  const handleLogin = () => {
+    const url = `https://3d14-36-71-167-124.ngrok-free.app/kupon/api/login.php?password=${password}`;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        navigation.replace('HomeScreen', { user: data.data[0] });
+      } else {
+        alert('Login gagal');
+      }
+    })
+    .catch(error => {
+      alert('Terjadi kesalahan');
+    });
   };
 
   return (
@@ -14,11 +30,18 @@ const LoginScreen = ({ navigation }) => {
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <Text style={styles.title}>Login Kupon Makan</Text>
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Password" secureTextEntry style={styles.input} />
+        <TextInput 
+          placeholder="Password" 
+          secureTextEntry 
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
+
     </View>
   );
 };

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons dari Expo
 
-const Notifikasi = () => {
+const Notifikasi = ({ user }) => {
   const [notifikasi, setNotifikasi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch('https://e262-180-253-164-209.ngrok-free.app/kupon/api/notif.php') // Ganti URL ini dengan URL endpoint yang sesuai
+  const fetchData = () => {
+    fetch(`https://3d14-36-71-167-124.ngrok-free.app/kupon/api/notif.php?id=${user.id}`) // Menggunakan user.id
       .then((response) => response.json())
       .then((data) => {
         setNotifikasi(data.notifikasi_pembayaran);
@@ -18,6 +18,16 @@ const Notifikasi = () => {
         setError(error);
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchData(); // Memanggil fetchData saat komponen pertama kali dimount
+
+    const interval = setInterval(() => {
+      fetchData(); // Memanggil fetchData setiap 5 detik
+    }, 5000);
+
+    return () => clearInterval(interval); // Membersihkan interval saat komponen unmount
   }, []);
 
   if (loading) {
@@ -38,7 +48,7 @@ const Notifikasi = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Ionicons name="notifications-circle-sharp" size={34} color="#F1ED00" style={styles.icon} />
+      <Ionicons name="notifications-circle-sharp" size={34} color="#008F13" style={styles.icon} />
       <Text style={styles.itemText}>
         Terakhir pembayaran untuk kupon {item.jenis_kupon} tanggal {item.tanggal_pembayaran}
       </Text>

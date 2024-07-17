@@ -1,52 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SectionList } from 'react-native';
 
-const Totalkupon = () => {
+const Totalkupon = ({ user }) => {
   const [totalKupon, setTotalKupon] = useState(null);
   const [historyPengambilan, setHistoryPengambilan] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://e262-180-253-164-209.ngrok-free.app/kupon/api/kupon.php') // Ganti URL ini dengan URL endpoint PHP yang sesuai
-      .then((response) => response.json())
-      .then((data) => {
-        setTotalKupon(data.total_kupon);
-        setHistoryPengambilan(data.history_pengambilan);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+    const fetchData = () => {
+      fetch(`https://3d14-36-71-167-124.ngrok-free.app/kupon/api/kupon.php?id=${user.id}`)
+        .then(response => response.json())
+        .then(data => {
+          setTotalKupon(data.total_kupon);
+          setHistoryPengambilan(data.history_pengambilan);
+          setLoading(false); // Set loading to false after data is fetched
+        })
+        .catch(error => {
+          setError(error);
+          setLoading(false); // Set loading to false in case of error
+        });
+    };
 
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+    fetchData(); // Initial fetch
 
-  if (error) {
-    return (
-      <View style={styles.container}>
-        <Text>Error: {error.message}</Text>
-      </View>
-    );
-  }
+    const interval = setInterval(fetchData, 3000); // Fetch data every 3 seconds
 
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.itemText}>{item.hari} - {item.tanggal}</Text>
-      <Text style={styles.itemText}>Jam 1: {item.jam_1} - Jam 2: {item.jam_2}</Text>
-    </View>
-  );
-
-  const renderSectionHeader = ({ section: { title } }) => (
-    <Text style={styles.sectionHeader}>{title}</Text>
-  );
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [user]);
 
   return (
     <View style={styles.container}>
@@ -59,8 +40,15 @@ const Totalkupon = () => {
           { title: 'Riwayat Pengambilan Kupon Kakan', data: historyPengambilan }
         ]}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={renderItem}
-        renderSectionHeader={renderSectionHeader}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemText}>{item.hari} - {item.tanggal}</Text>
+            <Text style={styles.itemText}>Jam 1: {item.jam_1} - Jam 2: {item.jam_2}</Text>
+          </View>
+        )}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text style={styles.sectionHeader}>{title}</Text>
+        )}
         contentContainerStyle={styles.historyContainer}
       />
     </View>
@@ -71,7 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 20, // Menyesuaikan posisi atas
+    paddingTop: 20,
     paddingHorizontal: 16,
   },
   card: {
