@@ -19,7 +19,7 @@ const App = () => {
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Total Kupon" component={Totalkupon} />
         <Stack.Screen name="Notifikasi" component={Notifikasi} />
-        <Stack.Screen name="PetugasScreen" component={PetugasScreen} />
+        <Stack.Screen name="PetugasScreen" component={PetugasScreen}options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
