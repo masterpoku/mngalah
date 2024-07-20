@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SectionList, TouchableOpacity, Linking } from '
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { API_BASE_URL } from '@env'; // Importing the environment variable
 import Totalkupon from './Totalkupon';
 import Notifikasi from './Notifikasi';
 
@@ -68,7 +69,7 @@ const HomeContent = ({ user }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`https://3d14-36-71-167-124.ngrok-free.app/kupon/api/home.php?id=${user.id}`);
+      const response = await fetch(`${API_BASE_URL}/kupon/api/home.php?id=${user.id}`);
       const data = await response.json();
       setData(data);
       setLoading(false);
@@ -105,7 +106,7 @@ const HomeContent = ({ user }) => {
 
 
   const handlePay = async (id) => {
-    const urlpay = `https://3d14-36-71-167-124.ngrok-free.app/kupon/api/home.php?id=${id.santri_id}`;
+    const urlpay = `${API_BASE_URL}/kupon/midtrans/Payment/snap-redirect/checkout-process.php?santri_id=${id.santri_id}&tagihan_id=${id.id}`;
     console.log(urlpay);
     Linking.openURL(urlpay);
   };

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons dari Expo
-
+import { API_BASE_URL } from '@env'; // Importing the environment variable
 const Notifikasi = ({ user }) => {
   const [notifikasi, setNotifikasi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchData = () => {
-    fetch(`https://3d14-36-71-167-124.ngrok-free.app/kupon/api/notif.php?id=${user.id}`) // Menggunakan user.id
+    fetch(`${API_BASE_URL}/kupon/api/notif.php?id=${user.id}`) // Menggunakan user.id
       .then((response) => response.json())
       .then((data) => {
         setNotifikasi(data.notifikasi_pembayaran);

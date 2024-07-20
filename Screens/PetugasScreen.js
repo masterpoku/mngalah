@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-
+import { API_BASE_URL } from '@env'; // Importing the environment variable
 const PetugasScreen = () => {
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,7 +25,7 @@ const PetugasScreen = () => {
     setScanned(true);
     setScannedData(data);
     try {
-      const response = await fetch(`https://bda9-36-71-161-120.ngrok-free.app/kupon/api/ambil.php?id=${data}`);
+      const response = await fetch(`${API_BASE_URL}/kupon/api/ambil.php?id=${data}`);
       const json = await response.json();
       if (json.status === 'success') {
         alert(`Vocher Berhasil Diambil`);

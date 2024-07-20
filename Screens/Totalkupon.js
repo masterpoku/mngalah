@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SectionList } from 'react-native';
-
+import { API_BASE_URL } from '@env'; // Importing the environment variable
 const Totalkupon = ({ user }) => {
   const [totalKupon, setTotalKupon] = useState(null);
   const [historyPengambilan, setHistoryPengambilan] = useState([]);
@@ -9,7 +9,7 @@ const Totalkupon = ({ user }) => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch(`https://3d14-36-71-167-124.ngrok-free.app/kupon/api/kupon.php?id=${user.id}`)
+      fetch(`${API_BASE_URL}/kupon/api/kupon.php?id=${user.id}`)
         .then(response => response.json())
         .then(data => {
           setTotalKupon(data.total_kupon);

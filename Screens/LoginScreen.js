@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-
+import { API_BASE_URL } from '@env'; // Importing the environment variable
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    const url = `https://3d14-36-71-167-124.ngrok-free.app/kupon/api/login.php?password=${password}`;
+    const url = `${API_BASE_URL}/kupon/api/login.php?password=${password}`;
     fetch(url, {
       method: 'GET',
       headers: {
