@@ -1,1 +1,4 @@
-kurang aktifkan callback midtrans / validasi pembayarn sukses
+create file .env
+
+isi dengan 
+API_BASE_URL=https://c0dd-36-71-173-6.ngrok-free.app
