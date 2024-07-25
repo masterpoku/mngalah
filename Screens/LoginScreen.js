@@ -4,31 +4,30 @@ import { API_BASE_URL } from '@env'; // Importing the environment variable
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    const url = `${API_BASE_URL}/kupon/api/login.php?password=${password}`;
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/login.php?password=${password}&table=santri`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      console.log(data);
       if (data.status === 'success') {
         navigation.replace('HomeScreen', { user: data.data[0] });
       } else {
         alert('Login gagal');
       }
-    })
-    .catch(error => {
+    } catch (error) {
       alert('Terjadi kesalahan');
-    });
+    }
   };
 
   return (
     <View style={styles.container}>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
-      <Text style={styles.title}>Login Kupon Makan</Text>
+      <Text style={styles.title}>Login Wali Santri</Text>
       <View style={styles.inputContainer}>
         <TextInput 
           placeholder="Password" 

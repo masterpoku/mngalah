@@ -69,7 +69,7 @@ const HomeContent = ({ user }) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/kupon/api/home.php?id=${user.id}`);
+      const response = await fetch(`${API_BASE_URL}/api/home.php?id=${user.id}`);
       const data = await response.json();
       setData(data);
       setLoading(false);
@@ -106,7 +106,7 @@ const HomeContent = ({ user }) => {
 
 
   const handlePay = async (id) => {
-    const urlpay = `${API_BASE_URL}/kupon/midtrans/Payment/snap-redirect/checkout-process.php?santri_id=${id.santri_id}&tagihan_id=${id.id}`;
+    const urlpay = `${API_BASE_URL}/midtrans/Payment/snap-redirect/checkout-process.php?santri_id=${id.santri_id}&tagihan_id=${id.id}`;
     console.log(urlpay);
     Linking.openURL(urlpay);
   };

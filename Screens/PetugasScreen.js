@@ -9,15 +9,20 @@ const PetugasScreen = () => {
   const [scanned, setScanned] = useState(false);
   const [scannedData, setScannedData] = useState(null);
 
-  const handleLogin = () => {
-    if (password === '123456') {
-      setIsLoggedIn(true);
-      (async () => {
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/login.php?password=${password}&table=petugas`);
+      const data = await response.json();
+      if (data.status === 'success') {
+        setIsLoggedIn(true);
         const { status } = await BarCodeScanner.requestPermissionsAsync();
         setHasPermission(status === 'granted');
-      })();
-    } else {
-      alert('Password salah');
+      } else {
+        alert('Password salah');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Terjadi kesalahan');
     }
   };
 
@@ -42,7 +47,7 @@ const PetugasScreen = () => {
     return (
       <View style={styles.container}>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
-        <Text style={styles.title}>Login Kupon Makan</Text>
+        <Text style={styles.title}>Login Petugas</Text>
         <View style={styles.inputContainer}>
           <TextInput 
             placeholder="Password" 

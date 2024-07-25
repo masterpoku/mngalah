@@ -8,7 +8,7 @@ const Notifikasi = ({ user }) => {
   const [error, setError] = useState(null);
 
   const fetchData = () => {
-    fetch(`${API_BASE_URL}/kupon/api/notif.php?id=${user.id}`) // Menggunakan user.id
+    fetch(`${API_BASE_URL}/api/notif.php?id=${user.id}`) // Menggunakan user.id
       .then((response) => response.json())
       .then((data) => {
         setNotifikasi(data.notifikasi_pembayaran);

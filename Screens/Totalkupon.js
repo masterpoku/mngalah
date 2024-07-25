@@ -9,7 +9,7 @@ const Totalkupon = ({ user }) => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch(`${API_BASE_URL}/kupon/api/kupon.php?id=${user.id}`)
+      fetch(`${API_BASE_URL}/api/kupon.php?id=${user.id}`)
         .then(response => response.json())
         .then(data => {
           setTotalKupon(data.total_kupon);
@@ -37,7 +37,7 @@ const Totalkupon = ({ user }) => {
       </View>
       <SectionList
         sections={[
-          { title: 'Riwayat Pengambilan Kupon Kakan', data: historyPengambilan }
+          { title: 'Riwayat Pengambilan Kupon Makan', data: historyPengambilan }
         ]}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
